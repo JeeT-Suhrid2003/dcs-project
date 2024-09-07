@@ -6,7 +6,7 @@
     <title>Text to Binary Background</title>
     <style>
         body {
-            transition: background-color 0.5s ease;
+            transition: background-color 0.5s ease, opacity 0.5s ease;
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -23,6 +23,7 @@
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 300px;
+            transition: opacity 0.5s ease;
         }
 
         input[type="text"] {
@@ -91,6 +92,8 @@
         function changeBackground() {
             const input = document.getElementById('textInput');
             const errorMessage = document.getElementById('errorMessage');
+            const container = document.querySelector('.container');
+            const body = document.body;
 
             if (input.value === "") {
                 errorMessage.textContent = 'Please enter some text.';
@@ -99,11 +102,11 @@
 
             errorMessage.textContent = '';
 
-            // Make the input field slightly transparent
-            input.style.opacity = "0.6";
+            // Make everything disappear
+            container.style.opacity = "0";
+            body.style.opacity = "0";
 
             const binaryString = textToBinary(input.value);
-            const body = document.body;
             let index = 0;
 
             const interval = setInterval(() => {
@@ -124,11 +127,9 @@
                     elem.requestFullscreen();
                 } else if (elem.mozRequestFullScreen) { // Firefox
                     elem.mozRequestFullScreen();
-                } else if (elem.webkitRequestFullscreen) { 
-                    // Chrome, Safari, Opera
+                } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
                     elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) {
-                     // IE/Edge
+                } else if (elem.msRequestFullscreen) { // IE/Edge
                     elem.msRequestFullscreen();
                 }
             } else {
@@ -136,7 +137,6 @@
                     document.exitFullscreen();
                 }
             }
-            
         }
     </script>
 </body>
