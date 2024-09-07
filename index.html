@@ -115,6 +115,12 @@
                     index++;
                 } else {
                     clearInterval(interval);
+
+                    // Make everything visible again after the background transition
+                    setTimeout(() => {
+                        container.style.opacity = "1";
+                        body.style.opacity = "1";
+                    }, 1000); // Adjust this delay as needed to match the transition duration
                 }
             }, 1000);
         }
@@ -136,7 +142,6 @@
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 }
-                
             }
         }
     </script>
