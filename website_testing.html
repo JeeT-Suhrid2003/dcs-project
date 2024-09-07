@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Binary Background</title>
+    <style>
+        body {
+            transition: background-color 0.5s ease;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Text</h1>
+        <input type="text" id="textInput" placeholder="Enter text (e.g., jeet)">
+        <br>
+        <button onclick="changeBackground()">Submit</button>
+        <div class="error" id="errorMessage"></div>
+    </div>
+
+    <script>
+        function textToBinary(text) {
+            return text.split('').map(char => {
+                let binary = char.charCodeAt(0).toString(2);
+                return binary.padStart(8, '0');
+            }).join('');
+        }
+
+        function changeBackground() {
+            const input = document.getElementById('textInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (input === "") {
+                errorMessage.textContent = 'Please enter some text.';
+                return;
+            }
+
+            errorMessage.textContent = '';
+
+            const binaryString = textToBinary(input);
+            const body = document.body;
+            let index = 0;
+
+            const interval = setInterval(() => {
+                if (index < binaryString.length) {
+                    body.style.backgroundColor = binaryString[index] === '1' ? 'black' : 'white';
+                    index++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
