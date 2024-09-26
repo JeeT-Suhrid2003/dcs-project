@@ -88,46 +88,47 @@
                 return binary.padStart(8, '0');
             }).join('');
         }
-
+    
         function changeBackground() {
             const input = document.getElementById('textInput');
             const errorMessage = document.getElementById('errorMessage');
             const container = document.querySelector('.container');
             const body = document.body;
-
+    
             if (input.value === "") {
                 errorMessage.textContent = 'Please enter some text.';
                 return;
             }
-
+    
             errorMessage.textContent = '';
-
+    
             // Make everything disappear
             container.style.opacity = "0";
             body.style.opacity = "0";
-
+    
             const binaryString = textToBinary(input.value);
             let index = 0;
-
+    
+            // Adjusted interval to match Arduino's PERIOD of 10ms
             const interval = setInterval(() => {
                 if (index < binaryString.length) {
                     body.style.backgroundColor = binaryString[index] === '1' ? 'black' : 'white';
                     index++;
                 } else {
                     clearInterval(interval);
-
+    
                     // Make everything visible again after the background transition
                     setTimeout(() => {
                         container.style.opacity = "1";
                         body.style.opacity = "1";
                     }, 1000); // Adjust this delay as needed to match the transition duration
                 }
-            }, 1000);
+            }, 10); // Set to 10 milliseconds to match Arduino's PERIOD
         }
-
+    
         function toggleFullscreen() {
             const elem = document.documentElement;
-
+    
             if (!document.fullscreenElement) {
                 if (elem.requestFullscreen) {
                     elem.requestFullscreen();
@@ -145,5 +146,6 @@
             }
         }
     </script>
+    
 </body>
 </html>
