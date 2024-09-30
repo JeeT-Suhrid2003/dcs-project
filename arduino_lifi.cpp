@@ -48,7 +48,7 @@ void loop()
 }
 
 bool detect_start_sequence() {
-  String startSequence = "00000000";  // Starting sequence expected from HTML (all '1's)
+  String startSequence = "11111111";  // Starting sequence expected from HTML (all '1's)
   String receivedSequence = "";
 
   // Read 8 bits for the start sequence
