@@ -90,41 +90,46 @@
         }
     
         function changeBackground() {
-            const input = document.getElementById('textInput');
-            const errorMessage = document.getElementById('errorMessage');
-            const container = document.querySelector('.container');
-            const body = document.body;
-    
-            if (input.value === "") {
-                errorMessage.textContent = 'Please enter some text.';
-                return;
-            }
-    
-            errorMessage.textContent = '';
-    
-            // Make everything disappear
-            container.style.opacity = "0";
-            body.style.opacity = "0";
-    
-            const binaryString = textToBinary(input.value);
-            let index = 0;
-    
-            // Adjusted interval to match Arduino's PERIOD of 10ms
-            const interval = setInterval(() => {
-                if (index < binaryString.length) {
-                    body.style.backgroundColor = binaryString[index] === '1' ? 'black' : 'white';
-                    index++;
-                } else {
-                    clearInterval(interval);
-    
-                    // Make everything visible again after the background transition
-                    setTimeout(() => {
-                        container.style.opacity = "1";
-                        body.style.opacity = "1";
-                    }, 1000); // Adjust this delay as needed to match the transition duration
-                }
-            }, 100); // Set to 10 milliseconds to match Arduino's PERIOD
+    const input = document.getElementById('textInput');
+    const errorMessage = document.getElementById('errorMessage');
+    const container = document.querySelector('.container');
+    const body = document.body;
+
+    if (input.value === "") {
+        errorMessage.textContent = 'Please enter some text.';
+        return;
+    }
+
+    errorMessage.textContent = '';
+
+    // Make everything disappear
+    container.style.opacity = "0";
+    body.style.opacity = "0";
+
+    // Adding the starting bit sequence (e.g., 8 bits of '1')
+    const startSequence = '00000000'; 
+    const binaryString = startSequence + textToBinary(input.value);
+
+    let index = 0;
+
+    // Interval to change background color according to each bit (delays after each bit)
+    const interval = setInterval(() => {
+        if (index < binaryString.length) {
+            body.style.backgroundColor = binaryString[index] === '1' ? 'black' : 'white';
+            index++;
+        } else {
+            clearInterval(interval);
+            
+            // Adding an additional delay after the entire string of bits
+            setTimeout(() => {
+                // Make everything visible again after the background transition
+                container.style.opacity = "1";
+                body.style.opacity = "1";
+            }, 1000); // Adjust this delay as needed to match the time after the full string
         }
+    }, 100);  // Delay applied after each bit (100ms to simulate Arduino's PERIOD)
+}
+
     
         function toggleFullscreen() {
             const elem = document.documentElement;
